@@ -1,6 +1,9 @@
 # BatchToApp
 Program that allows you to pack your Batch scripts (`.bat`/`.cmd`) into a Windows applications (`.exe`)
 
+
+> **[Download for Windows](https://github.com/DosX-dev/BatchToApp/releases/tag/Builds)**
+
 > Screenshots
 >
 > ![](./pics/1.png)
