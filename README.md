@@ -1,5 +1,10 @@
 # BatchToApp
-Program that allows you to pack your Batch scripts (`.bat`/`.cmd`) into a Windows applications! (`.exe`)
+Program that allows you to pack your Batch scripts (`.bat`/`.cmd`) into a Windows applications (`.exe`)
+
+> Screenshots
+>
+> ![](./pics/1.png)
+> ![](./pics/2.png)
 
 The script file after conversion can still:
  * Receive and process command line arguments
