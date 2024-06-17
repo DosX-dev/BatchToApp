@@ -1,8 +1,9 @@
 # BatchToApp
-Program that allows you to pack your Batch scripts (`.bat`/`.cmd`) into a Windows applications (`.exe`)
+### Program that allows you to pack your Batch scripts (`.bat`/`.cmd`) into a Windows applications (`.exe`)
 
+### > **[Download for Windows](https://github.com/DosX-dev/BatchToApp/releases/tag/Builds)**
 
-> **[Download for Windows](https://github.com/DosX-dev/BatchToApp/releases/tag/Builds)**
+---
 
 > Screenshots
 >
@@ -15,5 +16,9 @@ The script file after conversion can still:
 
 ## Functionality
 **BatchToApp** can create 32 or 64 bit applications, with or without hiding the console. There are also completely unique script trimming functions that include:
- * Comments removing
- * Unnecessary characters removing
+ * Comments removing (all lines starting with `::` or `rem` will be removed)
+ * Unnecessary characters removing (this means reducing the number of line breaks, removing extra spaces)
+
+## Developer notes
+> [!WARNING]
+> Antiviruses treat packed files with contempt, so false positives may appear. It's sad, but these are the realities. Ignore this or install a valid CodeSigning digital signature on the file
