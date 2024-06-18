@@ -22,7 +22,7 @@
     End Function
 
     Function GetObfuscatedName() As String
-        Return "point_" & Guid.NewGuid().ToString("N").Substring(0, 8)
+        Return "point_0x" & Guid.NewGuid().ToString("N").Substring(0, 8)
     End Function
 
     Private Function ReplaceLabel(match As Text.RegularExpressions.Match) As String
@@ -48,7 +48,7 @@
 
     Private Function ReplaceGotoMatch(match As Text.RegularExpressions.Match) As String
         If labelMap.ContainsKey(match.Groups(1).Value) Then
-            Return "goto " & labelMap(match.Groups(1).Value)
+            Return "goto " & ObfuscateString(labelMap(match.Groups(1).Value))
         End If
         Return match.Value
     End Function
