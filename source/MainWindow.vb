@@ -51,30 +51,16 @@ Public Class MainWindow
         FixBugWithComboBoxFocus()
     End Sub
 
-    Private globalOperationStatusLabel As BonfireAlertBox
     Private Sub ShowStatus(isSuccessful As Boolean, labelText As String)
-        Dim newStatusLabel As New BonfireAlertBox With {
-            .Text = labelText,
-            .AlertStyle = operationStatusLabel.AlertStyle,
-            .Size = operationStatusLabel.Size,
-            .Location = operationStatusLabel.Location,
-            .Anchor = operationStatusLabel.Anchor,
-            .Visible = True
-        }
+        operationStatusLabel.Text = labelText
 
         If Not isSuccessful Then
-            newStatusLabel.AlertStyle = BonfireAlertBox.Style._Error
+            operationStatusLabel.AlertStyle = BonfireAlertBox.Style._Error
         Else
-            newStatusLabel.AlertStyle = BonfireAlertBox.Style._Success
+            operationStatusLabel.AlertStyle = BonfireAlertBox.Style._Success
         End If
 
-        If operationStatusLabel IsNot Nothing Then
-            Me.Controls.Remove(operationStatusLabel)
-        End If
-
-        Me.Controls.Add(newStatusLabel)
-
-        operationStatusLabel = newStatusLabel
+        operationStatusLabel.Visible = True
     End Sub
 
     Private Sub CompileCSharpCode(csharpCode As String, exeSavePath As String, architecture As String, hideWindow As Boolean, batFilePath As String)

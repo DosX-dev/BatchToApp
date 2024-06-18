@@ -47,12 +47,12 @@ Partial Class MainWindow
         Me.ConsoleRadioButton = New BatchToApp.BonfireRadioButton()
         Me.HiddenRadioButton = New BatchToApp.BonfireRadioButton()
         Me.aboutTab = New System.Windows.Forms.TabPage()
+        Me.lblVersion = New BatchToApp.BonfireLabelHeader()
         Me.gitLink = New System.Windows.Forms.LinkLabel()
         Me.lbl6 = New BatchToApp.BonfireLabelHeader()
         Me.lblHeader3 = New BatchToApp.BonfireLabelHeader()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.batPath = New BatchToApp.BonfireLabel()
-        Me.lblVersion = New BatchToApp.BonfireLabelHeader()
         Me.menuTabs.SuspendLayout()
         Me.settingsTab.SuspendLayout()
         Me.menuGroup4.SuspendLayout()
@@ -369,6 +369,18 @@ Partial Class MainWindow
         Me.aboutTab.TabIndex = 1
         Me.aboutTab.Text = "About"
         '
+        'lblVersion
+        '
+        Me.lblVersion.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.lblVersion.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.Silver
+        Me.lblVersion.Location = New System.Drawing.Point(290, 7)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(129, 27)
+        Me.lblVersion.TabIndex = 0
+        Me.lblVersion.Text = "v%s"
+        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'gitLink
         '
         Me.gitLink.ActiveLinkColor = System.Drawing.Color.Teal
@@ -433,18 +445,6 @@ Partial Class MainWindow
         Me.batPath.Text = "Select or drag&drop file"
         Me.batPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.batPath.UseMnemonic = False
-        '
-        'lblVersion
-        '
-        Me.lblVersion.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.lblVersion.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.lblVersion.ForeColor = System.Drawing.Color.Silver
-        Me.lblVersion.Location = New System.Drawing.Point(290, 7)
-        Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(129, 27)
-        Me.lblVersion.TabIndex = 0
-        Me.lblVersion.Text = "v%s"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MainWindow
         '
