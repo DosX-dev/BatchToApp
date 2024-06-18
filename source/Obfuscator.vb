@@ -8,7 +8,10 @@
 
         For Each match As Text.RegularExpressions.Match In matches
             Dim originalLabel As String = match.Value.Substring(1)
-            If Not labelMap.ContainsKey(originalLabel) Then
+
+            If originalLabel.ToLower().StartsWith("eof") Then
+                labelMap(originalLabel) = "eof"
+            ElseIf Not labelMap.ContainsKey(originalLabel) Then
                 labelMap(originalLabel) = GetObfuscatedName()
             End If
         Next
@@ -26,7 +29,9 @@
     End Function
 
     Private Function ReplaceLabel(match As Text.RegularExpressions.Match) As String
-        Return ":" & labelMap(match.Value.Substring(1))
+        Dim labelName As String = labelMap(match.Value.Substring(1))
+
+        Return ":" & labelName
     End Function
 
     Private Function ReplaceGotoAndCallReferences(source As String) As String
@@ -35,7 +40,7 @@
 
         For Each line As String In lines
             Dim gotoRegex As New Text.RegularExpressions.Regex("\bgoto\s+(\w+)\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
-            line = gotoRegex.Replace(line, AddressOf ReplaceGotoMatch)
+             line = gotoRegex.Replace(line, AddressOf ReplaceGotoMatch)
 
             Dim callRegex As New Text.RegularExpressions.Regex("\bcall\s*\(?\s*:(\w+)\s*\)?", Text.RegularExpressions.RegexOptions.IgnoreCase)
             line = callRegex.Replace(line, AddressOf ReplaceCallMatch)
@@ -107,7 +112,7 @@
 
 
     Private Function ObfuscateString(input As String) As String
-        Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(0, 99) & ", -" & rnd.Next(0, 99) & "%"))
+        Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(20, 99) & ", -" & rnd.Next(20, 99) & "%"))
     End Function
 
 

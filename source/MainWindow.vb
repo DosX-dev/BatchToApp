@@ -47,8 +47,8 @@ Public Class MainWindow
 
                 CompileCSharpCode(My.Resources.stub, exeSavePath, architecture, HiddenRadioButton.Checked, batFilePath)
             End If
-            FixBugWithComboBoxFocus()
         End If
+        FixBugWithComboBoxFocus()
     End Sub
 
     Private globalOperationStatusLabel As BonfireAlertBox
@@ -160,8 +160,9 @@ Public Class MainWindow
 
         If openFileDialog.ShowDialog() = DialogResult.OK Then
             OpenFile(openFileDialog.FileName)
-            FixBugWithComboBoxFocus()
         End If
+
+        FixBugWithComboBoxFocus()
     End Sub
 
 
