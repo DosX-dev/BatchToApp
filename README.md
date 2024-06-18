@@ -19,6 +19,10 @@ The script file after conversion can still:
  * Comments removing (all lines starting with `::` or `rem` will be removed)
  * Unnecessary characters removing (this means reducing the number of line breaks, removing extra spaces)
 
+The program can also obfuscate scripts. There is a `Replace commands` function that causes some of the calls to get confused. There are 2 modes of mark obfuscation:
+ * `Points` (only changes names)
+ * `Points + Junks` (changes names and adds junk marks)
+
 ## Developer notes
 > [!WARNING]
 > Antiviruses treat packed files with contempt, so false positives may appear. It's sad, but these are the realities. Ignore this or install a valid CodeSigning digital signature on the file
