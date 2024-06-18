@@ -47,6 +47,7 @@ Public Class MainWindow
 
                 CompileCSharpCode(My.Resources.stub, exeSavePath, architecture, HiddenRadioButton.Checked, batFilePath)
             End If
+            FixBugWithComboBoxFocus()
         End If
     End Sub
 
@@ -78,6 +79,8 @@ Public Class MainWindow
 
     Private Sub CompileCSharpCode(csharpCode As String, exeSavePath As String, architecture As String, hideWindow As Boolean, batFilePath As String)
         Try
+            FixBugWithComboBoxFocus()
+
             ' Create a C# code provider
             Dim provider As New CSharpCodeProvider()
 
@@ -94,8 +97,7 @@ Public Class MainWindow
 
             Dim batchSource As String = RemoveBatchComments(IO.File.ReadAllText(batFilePath))
 
-            batchSource = ":: [BatchToApp] ::" & vbLf &
-                          "@shift /0" & vbLf
+            batchSource = "@shift /0" & vbLf
 
             batchSource &= IO.File.ReadAllText(batFilePath)
 
@@ -103,9 +105,22 @@ Public Class MainWindow
                 batchSource = RemoveBatchComments(batchSource)
             End If
 
-            If trimUnnecessaryChars.Checked Then
+            If trimUnnecessaryCharsCheckBox.Checked Then
                 batchSource = TrimUnnecessaryCharacters(batchSource)
             End If
+
+            Select Case obfuscationModeComboBox.SelectedIndex
+                Case 0
+                Case 1
+                    batchSource = ObfuscatePoints(batchSource, False)
+                Case 2
+                    batchSource = ObfuscatePoints(batchSource, True)
+            End Select
+
+            If replaceCommandsCheckBox.Checked Then
+                batchSource = ObfuscateCommands(batchSource)
+            End If
+
 
             File.WriteAllBytes(tmpResCompressedFile, Compress(Encoding.GetEncoding(866).GetBytes(batchSource)))
 
@@ -145,6 +160,7 @@ Public Class MainWindow
 
         If openFileDialog.ShowDialog() = DialogResult.OK Then
             OpenFile(openFileDialog.FileName)
+            FixBugWithComboBoxFocus()
         End If
     End Sub
 
@@ -176,5 +192,9 @@ Public Class MainWindow
         batPath.TextAlign = ContentAlignment.MiddleLeft
         batPath.Text = filePath
         fileSpecified = True
+    End Sub
+
+    Private Sub FixBugWithComboBoxFocus() Handles Me.Activated, Me.Deactivate, Me.GotFocus
+        btnCompile.Focus()
     End Sub
 End Class

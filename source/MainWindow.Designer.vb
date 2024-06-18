@@ -28,28 +28,33 @@ Partial Class MainWindow
         Me.btnSelectBat = New BatchToApp.BonfireButton()
         Me.menuTabs = New BatchToApp.BonfireTabControl()
         Me.settingsTab = New System.Windows.Forms.TabPage()
+        Me.menuGroup4 = New BatchToApp.BonfireGroupBox()
+        Me.obfuscationModeComboBox = New BatchToApp.BonfireCombo()
+        Me.replaceCommandsCheckBox = New BatchToApp.BonfireCheckbox()
+        Me.lbl4 = New BatchToApp.BonfireLabelHeader()
         Me.BonfireLabelHeader4 = New BatchToApp.BonfireLabelHeader()
         Me.BonfireLabelHeader1 = New BatchToApp.BonfireLabelHeader()
         Me.menuGroup3 = New BatchToApp.BonfireGroupBox()
-        Me.trimUnnecessaryChars = New BatchToApp.BonfireCheckbox()
+        Me.trimUnnecessaryCharsCheckBox = New BatchToApp.BonfireCheckbox()
         Me.removeCommentsCheckBox = New BatchToApp.BonfireCheckbox()
-        Me.BonfireLabelHeader5 = New BatchToApp.BonfireLabelHeader()
+        Me.lbl3 = New BatchToApp.BonfireLabelHeader()
         Me.menuGroup2 = New BatchToApp.BonfireGroupBox()
-        Me.BonfireLabelHeader3 = New BatchToApp.BonfireLabelHeader()
+        Me.lbl2 = New BatchToApp.BonfireLabelHeader()
         Me.i386RadioButton = New BatchToApp.BonfireRadioButton()
         Me.AMD64RadioButton = New BatchToApp.BonfireRadioButton()
         Me.menuGroup1 = New BatchToApp.BonfireGroupBox()
-        Me.BonfireLabelHeader2 = New BatchToApp.BonfireLabelHeader()
+        Me.lbl1 = New BatchToApp.BonfireLabelHeader()
         Me.ConsoleRadioButton = New BatchToApp.BonfireRadioButton()
         Me.HiddenRadioButton = New BatchToApp.BonfireRadioButton()
         Me.aboutTab = New System.Windows.Forms.TabPage()
         Me.gitLink = New System.Windows.Forms.LinkLabel()
-        Me.BonfireLabelHeader7 = New BatchToApp.BonfireLabelHeader()
-        Me.BonfireLabelHeader6 = New BatchToApp.BonfireLabelHeader()
+        Me.lbl6 = New BatchToApp.BonfireLabelHeader()
+        Me.lbl5 = New BatchToApp.BonfireLabelHeader()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.batPath = New BatchToApp.BonfireLabel()
         Me.menuTabs.SuspendLayout()
         Me.settingsTab.SuspendLayout()
+        Me.menuGroup4.SuspendLayout()
         Me.menuGroup3.SuspendLayout()
         Me.menuGroup2.SuspendLayout()
         Me.menuGroup1.SuspendLayout()
@@ -117,6 +122,7 @@ Partial Class MainWindow
         'settingsTab
         '
         Me.settingsTab.BackColor = System.Drawing.Color.White
+        Me.settingsTab.Controls.Add(Me.menuGroup4)
         Me.settingsTab.Controls.Add(Me.BonfireLabelHeader4)
         Me.settingsTab.Controls.Add(Me.BonfireLabelHeader1)
         Me.settingsTab.Controls.Add(Me.menuGroup3)
@@ -129,6 +135,57 @@ Partial Class MainWindow
         Me.settingsTab.Size = New System.Drawing.Size(565, 190)
         Me.settingsTab.TabIndex = 0
         Me.settingsTab.Text = "Settings"
+        '
+        'menuGroup4
+        '
+        Me.menuGroup4.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.menuGroup4.BackColor = System.Drawing.Color.FromArgb(CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer))
+        Me.menuGroup4.Controls.Add(Me.obfuscationModeComboBox)
+        Me.menuGroup4.Controls.Add(Me.replaceCommandsCheckBox)
+        Me.menuGroup4.Controls.Add(Me.lbl4)
+        Me.menuGroup4.Location = New System.Drawing.Point(3, 159)
+        Me.menuGroup4.Name = "menuGroup4"
+        Me.menuGroup4.Size = New System.Drawing.Size(559, 30)
+        Me.menuGroup4.TabIndex = 3
+        Me.menuGroup4.Text = "BonfireGroupBox2"
+        '
+        'obfuscationModeComboBox
+        '
+        Me.obfuscationModeComboBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.obfuscationModeComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.obfuscationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.obfuscationModeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.obfuscationModeComboBox.Font = New System.Drawing.Font("Arial", 8.0!)
+        Me.obfuscationModeComboBox.FormattingEnabled = True
+        Me.obfuscationModeComboBox.ItemHeight = 20
+        Me.obfuscationModeComboBox.Items.AddRange(New Object() {"Do not obfuscate", "Points", "Points + Junks (unsafe)"})
+        Me.obfuscationModeComboBox.Location = New System.Drawing.Point(130, 2)
+        Me.obfuscationModeComboBox.Name = "obfuscationModeComboBox"
+        Me.obfuscationModeComboBox.Size = New System.Drawing.Size(160, 26)
+        Me.obfuscationModeComboBox.TabIndex = 1
+        '
+        'replaceCommandsCheckBox
+        '
+        Me.replaceCommandsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.replaceCommandsCheckBox.Checked = False
+        Me.replaceCommandsCheckBox.Font = New System.Drawing.Font("Arial", 10.0!)
+        Me.replaceCommandsCheckBox.Location = New System.Drawing.Point(305, 5)
+        Me.replaceCommandsCheckBox.Name = "replaceCommandsCheckBox"
+        Me.replaceCommandsCheckBox.Size = New System.Drawing.Size(227, 20)
+        Me.replaceCommandsCheckBox.TabIndex = 0
+        Me.replaceCommandsCheckBox.Text = "Replace commands"
+        '
+        'lbl4
+        '
+        Me.lbl4.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.lbl4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl4.ForeColor = System.Drawing.Color.Gray
+        Me.lbl4.Location = New System.Drawing.Point(30, 3)
+        Me.lbl4.Name = "lbl4"
+        Me.lbl4.Size = New System.Drawing.Size(94, 23)
+        Me.lbl4.TabIndex = 0
+        Me.lbl4.Text = "Obfuscation"
+        Me.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'BonfireLabelHeader4
         '
@@ -158,25 +215,25 @@ Partial Class MainWindow
         '
         Me.menuGroup3.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.menuGroup3.BackColor = System.Drawing.Color.FromArgb(CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.menuGroup3.Controls.Add(Me.trimUnnecessaryChars)
+        Me.menuGroup3.Controls.Add(Me.trimUnnecessaryCharsCheckBox)
         Me.menuGroup3.Controls.Add(Me.removeCommentsCheckBox)
-        Me.menuGroup3.Controls.Add(Me.BonfireLabelHeader5)
+        Me.menuGroup3.Controls.Add(Me.lbl3)
         Me.menuGroup3.Location = New System.Drawing.Point(3, 128)
         Me.menuGroup3.Name = "menuGroup3"
         Me.menuGroup3.Size = New System.Drawing.Size(559, 29)
         Me.menuGroup3.TabIndex = 0
         Me.menuGroup3.Text = "BonfireGroupBox2"
         '
-        'trimUnnecessaryChars
+        'trimUnnecessaryCharsCheckBox
         '
-        Me.trimUnnecessaryChars.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.trimUnnecessaryChars.Checked = True
-        Me.trimUnnecessaryChars.Font = New System.Drawing.Font("Arial", 10.0!)
-        Me.trimUnnecessaryChars.Location = New System.Drawing.Point(296, 4)
-        Me.trimUnnecessaryChars.Name = "trimUnnecessaryChars"
-        Me.trimUnnecessaryChars.Size = New System.Drawing.Size(227, 20)
-        Me.trimUnnecessaryChars.TabIndex = 0
-        Me.trimUnnecessaryChars.Text = "Remove unnecessary characters"
+        Me.trimUnnecessaryCharsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.trimUnnecessaryCharsCheckBox.Checked = True
+        Me.trimUnnecessaryCharsCheckBox.Font = New System.Drawing.Font("Arial", 10.0!)
+        Me.trimUnnecessaryCharsCheckBox.Location = New System.Drawing.Point(305, 4)
+        Me.trimUnnecessaryCharsCheckBox.Name = "trimUnnecessaryCharsCheckBox"
+        Me.trimUnnecessaryCharsCheckBox.Size = New System.Drawing.Size(227, 20)
+        Me.trimUnnecessaryCharsCheckBox.TabIndex = 0
+        Me.trimUnnecessaryCharsCheckBox.Text = "Remove unnecessary characters"
         '
         'removeCommentsCheckBox
         '
@@ -189,23 +246,23 @@ Partial Class MainWindow
         Me.removeCommentsCheckBox.TabIndex = 0
         Me.removeCommentsCheckBox.Text = "Remove comments"
         '
-        'BonfireLabelHeader5
+        'lbl3
         '
-        Me.BonfireLabelHeader5.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.BonfireLabelHeader5.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader5.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader5.Location = New System.Drawing.Point(30, 3)
-        Me.BonfireLabelHeader5.Name = "BonfireLabelHeader5"
-        Me.BonfireLabelHeader5.Size = New System.Drawing.Size(78, 23)
-        Me.BonfireLabelHeader5.TabIndex = 0
-        Me.BonfireLabelHeader5.Text = "Trimming"
-        Me.BonfireLabelHeader5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lbl3.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.lbl3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl3.ForeColor = System.Drawing.Color.Gray
+        Me.lbl3.Location = New System.Drawing.Point(30, 3)
+        Me.lbl3.Name = "lbl3"
+        Me.lbl3.Size = New System.Drawing.Size(94, 23)
+        Me.lbl3.TabIndex = 0
+        Me.lbl3.Text = "Trimming"
+        Me.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'menuGroup2
         '
         Me.menuGroup2.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.menuGroup2.BackColor = System.Drawing.Color.FromArgb(CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.menuGroup2.Controls.Add(Me.BonfireLabelHeader3)
+        Me.menuGroup2.Controls.Add(Me.lbl2)
         Me.menuGroup2.Controls.Add(Me.i386RadioButton)
         Me.menuGroup2.Controls.Add(Me.AMD64RadioButton)
         Me.menuGroup2.Location = New System.Drawing.Point(3, 66)
@@ -214,17 +271,17 @@ Partial Class MainWindow
         Me.menuGroup2.TabIndex = 0
         Me.menuGroup2.Text = "BonfireGroupBox2"
         '
-        'BonfireLabelHeader3
+        'lbl2
         '
-        Me.BonfireLabelHeader3.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.BonfireLabelHeader3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader3.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader3.Location = New System.Drawing.Point(30, 3)
-        Me.BonfireLabelHeader3.Name = "BonfireLabelHeader3"
-        Me.BonfireLabelHeader3.Size = New System.Drawing.Size(78, 23)
-        Me.BonfireLabelHeader3.TabIndex = 0
-        Me.BonfireLabelHeader3.Text = "Bitness"
-        Me.BonfireLabelHeader3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lbl2.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.lbl2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl2.ForeColor = System.Drawing.Color.Gray
+        Me.lbl2.Location = New System.Drawing.Point(30, 3)
+        Me.lbl2.Name = "lbl2"
+        Me.lbl2.Size = New System.Drawing.Size(94, 23)
+        Me.lbl2.TabIndex = 0
+        Me.lbl2.Text = "Bitness"
+        Me.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'i386RadioButton
         '
@@ -252,7 +309,7 @@ Partial Class MainWindow
         '
         Me.menuGroup1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.menuGroup1.BackColor = System.Drawing.Color.FromArgb(CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer))
-        Me.menuGroup1.Controls.Add(Me.BonfireLabelHeader2)
+        Me.menuGroup1.Controls.Add(Me.lbl1)
         Me.menuGroup1.Controls.Add(Me.ConsoleRadioButton)
         Me.menuGroup1.Controls.Add(Me.HiddenRadioButton)
         Me.menuGroup1.Location = New System.Drawing.Point(3, 35)
@@ -261,17 +318,17 @@ Partial Class MainWindow
         Me.menuGroup1.TabIndex = 2
         Me.menuGroup1.Text = "BonfireGroupBox1"
         '
-        'BonfireLabelHeader2
+        'lbl1
         '
-        Me.BonfireLabelHeader2.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.BonfireLabelHeader2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader2.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader2.Location = New System.Drawing.Point(30, 3)
-        Me.BonfireLabelHeader2.Name = "BonfireLabelHeader2"
-        Me.BonfireLabelHeader2.Size = New System.Drawing.Size(78, 23)
-        Me.BonfireLabelHeader2.TabIndex = 0
-        Me.BonfireLabelHeader2.Text = "Mode"
-        Me.BonfireLabelHeader2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lbl1.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.lbl1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl1.ForeColor = System.Drawing.Color.Gray
+        Me.lbl1.Location = New System.Drawing.Point(30, 3)
+        Me.lbl1.Name = "lbl1"
+        Me.lbl1.Size = New System.Drawing.Size(94, 23)
+        Me.lbl1.TabIndex = 0
+        Me.lbl1.Text = "Mode"
+        Me.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ConsoleRadioButton
         '
@@ -299,8 +356,8 @@ Partial Class MainWindow
         '
         Me.aboutTab.BackColor = System.Drawing.Color.White
         Me.aboutTab.Controls.Add(Me.gitLink)
-        Me.aboutTab.Controls.Add(Me.BonfireLabelHeader7)
-        Me.aboutTab.Controls.Add(Me.BonfireLabelHeader6)
+        Me.aboutTab.Controls.Add(Me.lbl6)
+        Me.aboutTab.Controls.Add(Me.lbl5)
         Me.aboutTab.Controls.Add(Me.PictureBox1)
         Me.aboutTab.Location = New System.Drawing.Point(4, 34)
         Me.aboutTab.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
@@ -317,36 +374,36 @@ Partial Class MainWindow
         Me.gitLink.AutoSize = True
         Me.gitLink.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.gitLink.LinkColor = System.Drawing.Color.Teal
-        Me.gitLink.Location = New System.Drawing.Point(167, 80)
+        Me.gitLink.Location = New System.Drawing.Point(167, 95)
         Me.gitLink.Name = "gitLink"
         Me.gitLink.Size = New System.Drawing.Size(278, 17)
         Me.gitLink.TabIndex = 0
         Me.gitLink.TabStop = True
         Me.gitLink.Text = "https://github.com/DosX-dev/BatchToApp"
         '
-        'BonfireLabelHeader7
+        'lbl6
         '
-        Me.BonfireLabelHeader7.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.BonfireLabelHeader7.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader7.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader7.Location = New System.Drawing.Point(166, 34)
-        Me.BonfireLabelHeader7.Name = "BonfireLabelHeader7"
-        Me.BonfireLabelHeader7.Size = New System.Drawing.Size(387, 46)
-        Me.BonfireLabelHeader7.TabIndex = 0
-        Me.BonfireLabelHeader7.Text = "An open source program that allows you to pack your Batch scripts (.bat/.cmd) int" &
-    "o a Windows applications!"
+        Me.lbl6.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.lbl6.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl6.ForeColor = System.Drawing.Color.Gray
+        Me.lbl6.Location = New System.Drawing.Point(166, 34)
+        Me.lbl6.Name = "lbl6"
+        Me.lbl6.Size = New System.Drawing.Size(387, 63)
+        Me.lbl6.TabIndex = 0
+        Me.lbl6.Text = "An open source program that allows you to pack and obfuscate your Batch scripts (" &
+    ".bat/.cmd) into a Windows applications!"
         '
-        'BonfireLabelHeader6
+        'lbl5
         '
-        Me.BonfireLabelHeader6.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.BonfireLabelHeader6.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader6.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader6.Location = New System.Drawing.Point(166, 7)
-        Me.BonfireLabelHeader6.Name = "BonfireLabelHeader6"
-        Me.BonfireLabelHeader6.Size = New System.Drawing.Size(390, 27)
-        Me.BonfireLabelHeader6.TabIndex = 0
-        Me.BonfireLabelHeader6.Text = "BatchToApp"
-        Me.BonfireLabelHeader6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lbl5.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.lbl5.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lbl5.ForeColor = System.Drawing.Color.Gray
+        Me.lbl5.Location = New System.Drawing.Point(166, 7)
+        Me.lbl5.Name = "lbl5"
+        Me.lbl5.Size = New System.Drawing.Size(390, 27)
+        Me.lbl5.TabIndex = 0
+        Me.lbl5.Text = "BatchToApp"
+        Me.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'PictureBox1
         '
@@ -398,6 +455,7 @@ Partial Class MainWindow
         Me.Text = "BatchToApp"
         Me.menuTabs.ResumeLayout(False)
         Me.settingsTab.ResumeLayout(False)
+        Me.menuGroup4.ResumeLayout(False)
         Me.menuGroup3.ResumeLayout(False)
         Me.menuGroup2.ResumeLayout(False)
         Me.menuGroup1.ResumeLayout(False)
@@ -414,23 +472,27 @@ Partial Class MainWindow
     Friend WithEvents batPath As BonfireLabel
     Friend WithEvents btnSelectBat As BonfireButton
     Friend WithEvents btnCompile As BonfireButton
-    Friend WithEvents BonfireLabelHeader2 As BonfireLabelHeader
+    Friend WithEvents lbl1 As BonfireLabelHeader
     Friend WithEvents HiddenRadioButton As BonfireRadioButton
     Friend WithEvents ConsoleRadioButton As BonfireRadioButton
     Friend WithEvents menuGroup1 As BonfireGroupBox
     Friend WithEvents menuGroup2 As BonfireGroupBox
-    Friend WithEvents BonfireLabelHeader3 As BonfireLabelHeader
+    Friend WithEvents lbl2 As BonfireLabelHeader
     Friend WithEvents i386RadioButton As BonfireRadioButton
     Friend WithEvents AMD64RadioButton As BonfireRadioButton
     Friend WithEvents BonfireLabelHeader1 As BonfireLabelHeader
     Friend WithEvents BonfireLabelHeader4 As BonfireLabelHeader
     Friend WithEvents menuGroup3 As BonfireGroupBox
-    Friend WithEvents BonfireLabelHeader5 As BonfireLabelHeader
+    Friend WithEvents lbl3 As BonfireLabelHeader
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents BonfireLabelHeader6 As BonfireLabelHeader
+    Friend WithEvents lbl5 As BonfireLabelHeader
     Friend WithEvents operationStatusLabel As BonfireAlertBox
-    Friend WithEvents BonfireLabelHeader7 As BonfireLabelHeader
+    Friend WithEvents lbl6 As BonfireLabelHeader
     Friend WithEvents gitLink As LinkLabel
     Friend WithEvents removeCommentsCheckBox As BonfireCheckbox
-    Friend WithEvents trimUnnecessaryChars As BonfireCheckbox
+    Friend WithEvents trimUnnecessaryCharsCheckBox As BonfireCheckbox
+    Friend WithEvents menuGroup4 As BonfireGroupBox
+    Friend WithEvents lbl4 As BonfireLabelHeader
+    Friend WithEvents replaceCommandsCheckBox As BonfireCheckbox
+    Friend WithEvents obfuscationModeComboBox As BonfireCombo
 End Class

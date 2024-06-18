@@ -30,6 +30,8 @@ public class Program {
             }
         }
 
+        File.SetAttributes(cmdTemp, FileAttributes.Normal);
+
         File.Delete(cmdTemp);
     }
 

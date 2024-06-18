@@ -70,7 +70,7 @@ Class BonfireButton
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or _
                  ControlStyles.UserPaint Or ControlStyles.ResizeRedraw, True)
         MouseState = State.None
-        Size = New Size(65, 26)
+        Size = New Size(65, 25)
         Font = New Font("Verdana", 8)
         Cursor = Cursors.Hand
     End Sub
@@ -442,10 +442,13 @@ Class BonfireCombo
     Inherits ComboBox
 
     Sub New()
-        SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or _
-                 ControlStyles.UserPaint Or ControlStyles.ResizeRedraw Or _
+        SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer Or
+                 ControlStyles.UserPaint Or ControlStyles.ResizeRedraw Or
                  ControlStyles.SupportsTransparentBackColor, True)
+
         Font = New Font("Verdana", 8)
+        Me.FlatStyle = FlatStyle.Flat
+
     End Sub
 
     Protected Overrides Sub CreateHandle()
@@ -490,7 +493,7 @@ Class BonfireCombo
 
     End Sub
 
-    Sub replaceItem(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawItemEventArgs) Handles Me.DrawItem
+    Sub ReplaceItem(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawItemEventArgs) Handles Me.DrawItem
         e.DrawBackground()
 
         Dim G As Graphics = e.Graphics
@@ -510,14 +513,12 @@ Class BonfireCombo
             End If
 
         Catch : End Try
-
     End Sub
 
     Protected Overrides Sub OnSelectedItemChanged(ByVal e As System.EventArgs)
         MyBase.OnSelectedItemChanged(e)
         Invalidate()
     End Sub
-
 End Class
 
 <DefaultEvent("CheckedChanged")> Class BonfireCheckbox

@@ -107,6 +107,7 @@
     <Compile Include="BonfireUI.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Obfuscator.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainWindow.resx">
