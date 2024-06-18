@@ -77,8 +77,6 @@
         Return output.ToString()
     End Function
 
-
-
     Private operatorMap As New Dictionary(Of String, String)
     Public Function ObfuscateCommands(source As String) As String
         Dim operators As String() = {"if", "goto", "call", "for", "echo", "set", "exit", "pause", "setlocal", "endlocal", "cls", "title"}

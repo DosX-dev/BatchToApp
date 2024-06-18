@@ -32,8 +32,8 @@ Partial Class MainWindow
         Me.obfuscationModeComboBox = New BatchToApp.BonfireCombo()
         Me.replaceCommandsCheckBox = New BatchToApp.BonfireCheckbox()
         Me.lbl4 = New BatchToApp.BonfireLabelHeader()
-        Me.BonfireLabelHeader4 = New BatchToApp.BonfireLabelHeader()
-        Me.BonfireLabelHeader1 = New BatchToApp.BonfireLabelHeader()
+        Me.lblHeader2 = New BatchToApp.BonfireLabelHeader()
+        Me.lblHeader1 = New BatchToApp.BonfireLabelHeader()
         Me.menuGroup3 = New BatchToApp.BonfireGroupBox()
         Me.trimUnnecessaryCharsCheckBox = New BatchToApp.BonfireCheckbox()
         Me.removeCommentsCheckBox = New BatchToApp.BonfireCheckbox()
@@ -49,9 +49,10 @@ Partial Class MainWindow
         Me.aboutTab = New System.Windows.Forms.TabPage()
         Me.gitLink = New System.Windows.Forms.LinkLabel()
         Me.lbl6 = New BatchToApp.BonfireLabelHeader()
-        Me.lbl5 = New BatchToApp.BonfireLabelHeader()
+        Me.lblHeader3 = New BatchToApp.BonfireLabelHeader()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.batPath = New BatchToApp.BonfireLabel()
+        Me.lblVersion = New BatchToApp.BonfireLabelHeader()
         Me.menuTabs.SuspendLayout()
         Me.settingsTab.SuspendLayout()
         Me.menuGroup4.SuspendLayout()
@@ -123,8 +124,8 @@ Partial Class MainWindow
         '
         Me.settingsTab.BackColor = System.Drawing.Color.White
         Me.settingsTab.Controls.Add(Me.menuGroup4)
-        Me.settingsTab.Controls.Add(Me.BonfireLabelHeader4)
-        Me.settingsTab.Controls.Add(Me.BonfireLabelHeader1)
+        Me.settingsTab.Controls.Add(Me.lblHeader2)
+        Me.settingsTab.Controls.Add(Me.lblHeader1)
         Me.settingsTab.Controls.Add(Me.menuGroup3)
         Me.settingsTab.Controls.Add(Me.menuGroup2)
         Me.settingsTab.Controls.Add(Me.menuGroup1)
@@ -187,29 +188,29 @@ Partial Class MainWindow
         Me.lbl4.Text = "Obfuscation"
         Me.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'BonfireLabelHeader4
+        'lblHeader2
         '
-        Me.BonfireLabelHeader4.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BonfireLabelHeader4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader4.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader4.Location = New System.Drawing.Point(10, 107)
-        Me.BonfireLabelHeader4.Name = "BonfireLabelHeader4"
-        Me.BonfireLabelHeader4.Size = New System.Drawing.Size(547, 17)
-        Me.BonfireLabelHeader4.TabIndex = 0
-        Me.BonfireLabelHeader4.Text = "Script parameters"
-        Me.BonfireLabelHeader4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblHeader2.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblHeader2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblHeader2.ForeColor = System.Drawing.Color.Gray
+        Me.lblHeader2.Location = New System.Drawing.Point(10, 107)
+        Me.lblHeader2.Name = "lblHeader2"
+        Me.lblHeader2.Size = New System.Drawing.Size(547, 17)
+        Me.lblHeader2.TabIndex = 0
+        Me.lblHeader2.Text = "Script parameters"
+        Me.lblHeader2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'BonfireLabelHeader1
+        'lblHeader1
         '
-        Me.BonfireLabelHeader1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BonfireLabelHeader1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.BonfireLabelHeader1.ForeColor = System.Drawing.Color.Gray
-        Me.BonfireLabelHeader1.Location = New System.Drawing.Point(10, 13)
-        Me.BonfireLabelHeader1.Name = "BonfireLabelHeader1"
-        Me.BonfireLabelHeader1.Size = New System.Drawing.Size(547, 17)
-        Me.BonfireLabelHeader1.TabIndex = 0
-        Me.BonfireLabelHeader1.Text = "Compiler parameters"
-        Me.BonfireLabelHeader1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblHeader1.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblHeader1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblHeader1.ForeColor = System.Drawing.Color.Gray
+        Me.lblHeader1.Location = New System.Drawing.Point(10, 13)
+        Me.lblHeader1.Name = "lblHeader1"
+        Me.lblHeader1.Size = New System.Drawing.Size(547, 17)
+        Me.lblHeader1.TabIndex = 0
+        Me.lblHeader1.Text = "Compiler parameters"
+        Me.lblHeader1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'menuGroup3
         '
@@ -355,9 +356,10 @@ Partial Class MainWindow
         'aboutTab
         '
         Me.aboutTab.BackColor = System.Drawing.Color.White
+        Me.aboutTab.Controls.Add(Me.lblVersion)
         Me.aboutTab.Controls.Add(Me.gitLink)
         Me.aboutTab.Controls.Add(Me.lbl6)
-        Me.aboutTab.Controls.Add(Me.lbl5)
+        Me.aboutTab.Controls.Add(Me.lblHeader3)
         Me.aboutTab.Controls.Add(Me.PictureBox1)
         Me.aboutTab.Location = New System.Drawing.Point(4, 34)
         Me.aboutTab.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
@@ -393,17 +395,17 @@ Partial Class MainWindow
         Me.lbl6.Text = "An open source program that allows you to pack and obfuscate your Batch scripts (" &
     ".bat/.cmd) into a Windows applications!"
         '
-        'lbl5
+        'lblHeader3
         '
-        Me.lbl5.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.lbl5.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.lbl5.ForeColor = System.Drawing.Color.Gray
-        Me.lbl5.Location = New System.Drawing.Point(166, 7)
-        Me.lbl5.Name = "lbl5"
-        Me.lbl5.Size = New System.Drawing.Size(390, 27)
-        Me.lbl5.TabIndex = 0
-        Me.lbl5.Text = "BatchToApp"
-        Me.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblHeader3.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.lblHeader3.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblHeader3.ForeColor = System.Drawing.Color.Gray
+        Me.lblHeader3.Location = New System.Drawing.Point(166, 7)
+        Me.lblHeader3.Name = "lblHeader3"
+        Me.lblHeader3.Size = New System.Drawing.Size(130, 27)
+        Me.lblHeader3.TabIndex = 0
+        Me.lblHeader3.Text = "BatchToApp"
+        Me.lblHeader3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'PictureBox1
         '
@@ -431,6 +433,18 @@ Partial Class MainWindow
         Me.batPath.Text = "Select or drag&drop file"
         Me.batPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.batPath.UseMnemonic = False
+        '
+        'lblVersion
+        '
+        Me.lblVersion.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.lblVersion.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.Silver
+        Me.lblVersion.Location = New System.Drawing.Point(290, 7)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(129, 27)
+        Me.lblVersion.TabIndex = 0
+        Me.lblVersion.Text = "v%s"
+        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MainWindow
         '
@@ -480,12 +494,12 @@ Partial Class MainWindow
     Friend WithEvents lbl2 As BonfireLabelHeader
     Friend WithEvents i386RadioButton As BonfireRadioButton
     Friend WithEvents AMD64RadioButton As BonfireRadioButton
-    Friend WithEvents BonfireLabelHeader1 As BonfireLabelHeader
-    Friend WithEvents BonfireLabelHeader4 As BonfireLabelHeader
+    Friend WithEvents lblHeader1 As BonfireLabelHeader
+    Friend WithEvents lblHeader2 As BonfireLabelHeader
     Friend WithEvents menuGroup3 As BonfireGroupBox
     Friend WithEvents lbl3 As BonfireLabelHeader
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents lbl5 As BonfireLabelHeader
+    Friend WithEvents lblHeader3 As BonfireLabelHeader
     Friend WithEvents operationStatusLabel As BonfireAlertBox
     Friend WithEvents lbl6 As BonfireLabelHeader
     Friend WithEvents gitLink As LinkLabel
@@ -495,4 +509,5 @@ Partial Class MainWindow
     Friend WithEvents lbl4 As BonfireLabelHeader
     Friend WithEvents replaceCommandsCheckBox As BonfireCheckbox
     Friend WithEvents obfuscationModeComboBox As BonfireCombo
+    Friend WithEvents lblVersion As BonfireLabelHeader
 End Class

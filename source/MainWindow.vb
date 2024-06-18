@@ -186,7 +186,17 @@ Public Class MainWindow
         If File.Exists(Command()) Then
             OpenFile(Command())
         End If
+
+        lblVersion.Text = lblVersion.Text.Replace("%s", GetTrimmedVersion())
     End Sub
+
+    Function GetTrimmedVersion()
+        Dim Out = Application.ProductVersion
+        While Out.EndsWith(".0")
+            Out = Out.Substring(0, Out.Length - 2)
+        End While
+        Return Out
+    End Function
 
     Sub OpenFile(filePath As String)
         batPath.TextAlign = ContentAlignment.MiddleLeft
