@@ -81,7 +81,9 @@
 
     Private operatorMap As New Dictionary(Of String, String)
     Public Function ObfuscateCommands(source As String) As String
-        Dim operators As String() = {"if", "goto", "call", "for", "echo", "set", "exit", "pause", "setlocal", "endlocal"}
+        Dim operators As String() = {"if", "goto", "call", "for", "echo", "set", "exit", "pause", "setlocal", "endlocal", "cls", "title"}
+        Dim operatorMap As New Dictionary(Of String, String)()
+
         For Each op As String In operators
             operatorMap(op) = "_" & GetObfuscatedOperatorName()
         Next
@@ -91,19 +93,20 @@
 
         For Each line As String In lines
             For Each op As String In operators
-                Dim regex As New Text.RegularExpressions.Regex("^\s*" & op & "\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
-                line = regex.Replace(line, Function(m) "%" & operatorMap(op) & "%")
+                Dim regex As New Text.RegularExpressions.Regex("^\s*@?" & op & "\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
+                line = regex.Replace(line, Function(m) If(m.Value.StartsWith("@"), "@" & "%" & operatorMap(op) & "%", "%" & operatorMap(op) & "%"))
             Next
             output.AppendLine(line)
         Next
 
         Dim operatorDeclarations As New System.Text.StringBuilder()
         For Each kvp As KeyValuePair(Of String, String) In operatorMap
-            operatorDeclarations.AppendLine("@set " & kvp.Value & "=^" & vbLf & ObfuscateString(kvp.Key))
+            operatorDeclarations.AppendLine("@" & ObfuscateString("set") & " ^" & kvp.Value & "=^" & vbLf & ObfuscateString(kvp.Key))
         Next
 
         Return operatorDeclarations.ToString() & Environment.NewLine & output.ToString()
     End Function
+
 
     Private Function ObfuscateString(input As String) As String
         Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(0, 99) & ", -" & rnd.Next(0, 99) & "%"))
