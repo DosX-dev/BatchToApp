@@ -1,4 +1,6 @@
-﻿Module Obfuscator
+﻿Imports System.Text
+
+Module Obfuscator
     Private rnd As New Random()
     Private labelMap As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
@@ -25,7 +27,7 @@
     End Function
 
     Function GetObfuscatedName() As String
-        Return "point_0x" & Guid.NewGuid().ToString("N").Substring(0, 8)
+        Return "label_0x" & Guid.NewGuid().ToString("N").Substring(0, 8)
     End Function
 
     Private Function ReplaceLabel(match As Text.RegularExpressions.Match) As String
@@ -40,7 +42,7 @@
 
         For Each line As String In lines
             Dim gotoRegex As New Text.RegularExpressions.Regex("\bgoto\s+(\w+)\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
-             line = gotoRegex.Replace(line, AddressOf ReplaceGotoMatch)
+            line = gotoRegex.Replace(line, AddressOf ReplaceGotoMatch)
 
             Dim callRegex As New Text.RegularExpressions.Regex("\bcall\s*\(?\s*:(\w+)\s*\)?", Text.RegularExpressions.RegexOptions.IgnoreCase)
             line = callRegex.Replace(line, AddressOf ReplaceCallMatch)
@@ -84,7 +86,33 @@
 
     Private operatorMap As New Dictionary(Of String, String)
     Public Function ObfuscateCommands(source As String) As String
-        Dim operators As String() = {"if", "goto", "call", "for", "echo", "set", "exit", "pause", "setlocal", "endlocal", "cls", "title"}
+        Dim mutationBlock As New StringBuilder,
+            mutationBlockLabel As String = GetObfuscatedName()
+
+        mutationBlock.AppendLine("@goto " & ObfuscateString(mutationBlockLabel))
+
+        Dim randomBytes(rnd.Next(200, 250)) As Byte
+        rnd.NextBytes(randomBytes)
+        mutationBlock.AppendLine(Encoding.Default.GetString(randomBytes))
+
+        mutationBlock.AppendLine(":" & mutationBlockLabel & vbLf)
+
+        Dim closingBracketVar As String = "_" & GetObfuscatedOperatorName()
+        mutationBlock.AppendLine("@set " & ObfuscateString(closingBracketVar) & "=^)")
+
+        source = mutationBlock.ToString() & vbCrLf & source
+
+        Dim operators As String() = {"if", "goto", "call", "for", "start", "dir", "echo", "set", "exit", "pause", "setlocal", "endlocal", "cls", "title",
+                             "assoc", "attrib", "break", "cacls", "cd", "chcp", "chdir", "choice", "clip", "color", "comp", "compact", "convert",
+                             "copy", "date", "del", "diskcomp", "diskcopy", "doskey", "fc", "find", "findstr", "format", "fsutil", "ftp",
+                             "getmac", "hostname", "label", "md", "mkdir", "mode", "more", "move", "net", "netstat", "nslookup", "path",
+                             "ping", "popd", "pushd", "rd", "ren", "rename", "replace", "rmdir", "robocopy", "sc", "schtasks", "shutdown",
+                             "sort", "subst", "systeminfo", "taskkill", "tasklist", "time", "timeout", "tree", "type", "ver", "verify",
+                             "vol", "xcopy", "shift", "bcdedit", "cipher", "cleanmgr", "driverquery", "gpupdate", "ipconfig", "nlsfunc",
+                             "openfiles", "pathping", "powercfg", "print", "recover", "relog", "remsvc", "sfc", "shadow", "shutdown", "sfc",
+                             "tzutil", "vssadmin", "wbadmin", "wevtutil"}
+
+
         Dim operatorMap As New Dictionary(Of String, String)()
 
         For Each op As String In operators
@@ -99,12 +127,23 @@
                 Dim regex As New Text.RegularExpressions.Regex("^\s*@?" & op & "\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
                 line = regex.Replace(line, Function(m) If(m.Value.StartsWith("@"), "@" & "%" & operatorMap(op) & "%", "%" & operatorMap(op) & "%"))
             Next
+
+            Dim closingBracketVarPattern As String = "%" & closingBracketVar & "%"
+
+            If line = ")" Then
+                line = closingBracketVarPattern
+            ElseIf line.ToLower().Replace(" ", "") = ")else(" Then
+                line = closingBracketVarPattern & ObfuscateString("else") & "("
+            End If
+
             output.AppendLine(line)
         Next
 
         Dim operatorDeclarations As New System.Text.StringBuilder()
         For Each kvp As KeyValuePair(Of String, String) In operatorMap
-            operatorDeclarations.AppendLine("@" & ObfuscateString("set") & " ^" & kvp.Value & "=^" & vbLf & ObfuscateString(kvp.Key))
+            If source.ToLower().Contains(kvp.Key) Then
+                operatorDeclarations.AppendLine("@" & ObfuscateString("set") & " ^" & kvp.Value & "=^" & vbLf & ObfuscateString(kvp.Key))
+            End If
         Next
 
         Return operatorDeclarations.ToString() & Environment.NewLine & output.ToString()

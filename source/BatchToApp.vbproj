@@ -131,6 +131,8 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="Resources\headers.cmd" />
+    <None Include="Resources\help.rtf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\stub.cs" />

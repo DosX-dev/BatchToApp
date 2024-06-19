@@ -1,5 +1,6 @@
 ﻿Imports System.CodeDom.Compiler
 Imports System.IO
+Imports System.Runtime.InteropServices
 Imports System.Text
 Imports Microsoft.CSharp
 
@@ -83,9 +84,7 @@ Public Class MainWindow
 
             Dim batchSource As String = RemoveBatchComments(IO.File.ReadAllText(batFilePath))
 
-            batchSource = "@shift /0" & vbLf
-
-            batchSource &= IO.File.ReadAllText(batFilePath)
+            batchSource = My.Resources.headers.Replace(":: {SOURCE}", batchSource)
 
             If removeCommentsCheckBox.Checked Then
                 batchSource = RemoveBatchComments(batchSource)
@@ -106,7 +105,6 @@ Public Class MainWindow
             If replaceCommandsCheckBox.Checked Then
                 batchSource = ObfuscateCommands(batchSource)
             End If
-
 
             File.WriteAllBytes(tmpResCompressedFile, Compress(Encoding.GetEncoding(866).GetBytes(batchSource)))
 
@@ -175,6 +173,7 @@ Public Class MainWindow
         End If
 
         lblVersion.Text = lblVersion.Text.Replace("%s", GetTrimmedVersion())
+        helpRichText.Rtf = My.Resources.help
     End Sub
 
     Function GetTrimmedVersion()
@@ -192,6 +191,10 @@ Public Class MainWindow
     End Sub
 
     Private Sub FixBugWithComboBoxFocus() Handles Me.Activated, Me.Deactivate, Me.GotFocus
+        btnCompile.Focus()
+    End Sub
+
+    Private Sub helpRichText_Checks() Handles helpRichText.SelectionChanged, helpRichText.GotFocus
         btnCompile.Focus()
     End Sub
 End Class

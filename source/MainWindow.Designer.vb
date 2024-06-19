@@ -46,6 +46,8 @@ Partial Class MainWindow
         Me.lbl1 = New BatchToApp.BonfireLabelHeader()
         Me.ConsoleRadioButton = New BatchToApp.BonfireRadioButton()
         Me.HiddenRadioButton = New BatchToApp.BonfireRadioButton()
+        Me.helpTan = New System.Windows.Forms.TabPage()
+        Me.helpRichText = New System.Windows.Forms.RichTextBox()
         Me.aboutTab = New System.Windows.Forms.TabPage()
         Me.lblVersion = New BatchToApp.BonfireLabelHeader()
         Me.gitLink = New System.Windows.Forms.LinkLabel()
@@ -59,6 +61,7 @@ Partial Class MainWindow
         Me.menuGroup3.SuspendLayout()
         Me.menuGroup2.SuspendLayout()
         Me.menuGroup1.SuspendLayout()
+        Me.helpTan.SuspendLayout()
         Me.aboutTab.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -110,6 +113,7 @@ Partial Class MainWindow
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.menuTabs.Controls.Add(Me.settingsTab)
+        Me.menuTabs.Controls.Add(Me.helpTan)
         Me.menuTabs.Controls.Add(Me.aboutTab)
         Me.menuTabs.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.menuTabs.ItemSize = New System.Drawing.Size(0, 30)
@@ -156,10 +160,10 @@ Partial Class MainWindow
         Me.obfuscationModeComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.obfuscationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.obfuscationModeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.obfuscationModeComboBox.Font = New System.Drawing.Font("Arial", 8.0!)
+        Me.obfuscationModeComboBox.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.obfuscationModeComboBox.FormattingEnabled = True
         Me.obfuscationModeComboBox.ItemHeight = 20
-        Me.obfuscationModeComboBox.Items.AddRange(New Object() {"Do not obfuscate", "Points", "Points + Junks (unsafe)"})
+        Me.obfuscationModeComboBox.Items.AddRange(New Object() {"Do not change labels", "Labels mutation v1", "Labels mutation v2"})
         Me.obfuscationModeComboBox.Location = New System.Drawing.Point(130, 2)
         Me.obfuscationModeComboBox.Name = "obfuscationModeComboBox"
         Me.obfuscationModeComboBox.Size = New System.Drawing.Size(160, 26)
@@ -174,7 +178,7 @@ Partial Class MainWindow
         Me.replaceCommandsCheckBox.Name = "replaceCommandsCheckBox"
         Me.replaceCommandsCheckBox.Size = New System.Drawing.Size(227, 20)
         Me.replaceCommandsCheckBox.TabIndex = 0
-        Me.replaceCommandsCheckBox.Text = "Replace commands"
+        Me.replaceCommandsCheckBox.Text = "Mutate calls"
         '
         'lbl4
         '
@@ -353,6 +357,30 @@ Partial Class MainWindow
         Me.HiddenRadioButton.TabIndex = 0
         Me.HiddenRadioButton.Text = "Hidden"
         '
+        'helpTan
+        '
+        Me.helpTan.BackColor = System.Drawing.Color.White
+        Me.helpTan.Controls.Add(Me.helpRichText)
+        Me.helpTan.Location = New System.Drawing.Point(4, 34)
+        Me.helpTan.Name = "helpTan"
+        Me.helpTan.Padding = New System.Windows.Forms.Padding(3)
+        Me.helpTan.Size = New System.Drawing.Size(565, 190)
+        Me.helpTan.TabIndex = 2
+        Me.helpTan.Text = "FAQ"
+        '
+        'helpRichText
+        '
+        Me.helpRichText.BackColor = System.Drawing.Color.White
+        Me.helpRichText.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.helpRichText.Cursor = System.Windows.Forms.Cursors.Default
+        Me.helpRichText.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.helpRichText.Location = New System.Drawing.Point(3, 3)
+        Me.helpRichText.Name = "helpRichText"
+        Me.helpRichText.ReadOnly = True
+        Me.helpRichText.Size = New System.Drawing.Size(559, 184)
+        Me.helpRichText.TabIndex = 0
+        Me.helpRichText.Text = ""
+        '
         'aboutTab
         '
         Me.aboutTab.BackColor = System.Drawing.Color.White
@@ -473,6 +501,7 @@ Partial Class MainWindow
         Me.menuGroup3.ResumeLayout(False)
         Me.menuGroup2.ResumeLayout(False)
         Me.menuGroup1.ResumeLayout(False)
+        Me.helpTan.ResumeLayout(False)
         Me.aboutTab.ResumeLayout(False)
         Me.aboutTab.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -510,4 +539,6 @@ Partial Class MainWindow
     Friend WithEvents replaceCommandsCheckBox As BonfireCheckbox
     Friend WithEvents obfuscationModeComboBox As BonfireCombo
     Friend WithEvents lblVersion As BonfireLabelHeader
+    Friend WithEvents helpTan As TabPage
+    Friend WithEvents helpRichText As RichTextBox
 End Class

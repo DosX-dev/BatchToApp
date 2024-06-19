@@ -19,9 +19,11 @@ The script file after conversion can still:
  * Comments removing (all lines starting with `::` or `rem` will be removed)
  * Unnecessary characters removing (this means reducing the number of line breaks, removing extra spaces)
 
-The program can also obfuscate scripts. There is a `Replace commands` function that causes some of the calls to get confused. There are 2 modes of mark obfuscation:
- * `Points` (only changes names)
- * `Points + Junks` (changes names and adds junk marks)
+How does BatchToApp obfuscate scripts?
+Labels obfuscation modes:
+* `Labels mutation` (only changes names)
+* `Labels mutation` (changes names and adds junks)
+To visually obfuscate many commands, you can use the `Mutate calls` option
 
 ## Developer notes
 > [!WARNING]
