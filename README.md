@@ -23,7 +23,8 @@ How does BatchToApp obfuscate scripts?
 Labels obfuscation modes:
 * `Labels mutation` (only changes names)
 * `Labels mutation` (changes names and adds junks)
-To visually obfuscate many commands, you can use the `Mutate calls` option
+
+To visually obfuscate many commands, you can use the `Mutate calls` option.
 
 ## Developer notes
 > [!WARNING]
