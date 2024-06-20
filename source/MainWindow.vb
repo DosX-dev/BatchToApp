@@ -77,6 +77,9 @@ Public Class MainWindow
             ' /* {APP_ID} */
             csharpCode = csharpCode.Replace("/* {APP_ID} */", """" & Guid.NewGuid().ToString("N").Substring(0, 8) & """")
 
+            ' /* {FS_PROTECTION} */
+            csharpCode = csharpCode.Replace("/* {FS_PROTECTION} */", If(fsProtectionCheckBox.Checked, "FileAttributes.System", "0x00"))
+
             ' Compilation parameters
             Dim compileParams As New CompilerParameters With {
                 .GenerateExecutable = True,
@@ -202,5 +205,9 @@ Public Class MainWindow
 
     Private Sub helpRichText_Checks() Handles helpRichText.SelectionChanged, helpRichText.GotFocus
         btnCompile.Focus()
+    End Sub
+
+    Private Sub helpRichText_Checks(sender As Object, e As EventArgs) Handles helpRichText.SelectionChanged, helpRichText.GotFocus
+
     End Sub
 End Class

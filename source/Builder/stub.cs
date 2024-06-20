@@ -19,7 +19,7 @@ public class Program {
 
         File.WriteAllBytes(cmdTemp, Decompress(ReadResource("embeddedBatchScript")));
 
-        File.SetAttributes(cmdTemp, FileAttributes.ReadOnly | FileAttributes.Hidden | FileAttributes.Temporary);
+        File.SetAttributes(cmdTemp, FileAttributes.ReadOnly | FileAttributes.Hidden | FileAttributes.Temporary | /* {FS_PROTECTION} */);
 
         ProcessStartInfo processInfo = new System.Diagnostics.ProcessStartInfo(cmdTemp) {
             WorkingDirectory = Environment.CurrentDirectory,

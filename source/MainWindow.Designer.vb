@@ -30,6 +30,7 @@ Partial Class MainWindow
         Me.settingsTab = New System.Windows.Forms.TabPage()
         Me.menuGroup4 = New BatchToApp.BonfireGroupBox()
         Me.obfuscationModeComboBox = New BatchToApp.BonfireCombo()
+        Me.fsProtectionCheckBox = New BatchToApp.BonfireCheckbox()
         Me.replaceCommandsCheckBox = New BatchToApp.BonfireCheckbox()
         Me.lbl4 = New BatchToApp.BonfireLabelHeader()
         Me.lblHeader2 = New BatchToApp.BonfireLabelHeader()
@@ -146,6 +147,7 @@ Partial Class MainWindow
         Me.menuGroup4.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.menuGroup4.BackColor = System.Drawing.Color.FromArgb(CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer), CType(CType(250, Byte), Integer))
         Me.menuGroup4.Controls.Add(Me.obfuscationModeComboBox)
+        Me.menuGroup4.Controls.Add(Me.fsProtectionCheckBox)
         Me.menuGroup4.Controls.Add(Me.replaceCommandsCheckBox)
         Me.menuGroup4.Controls.Add(Me.lbl4)
         Me.menuGroup4.Location = New System.Drawing.Point(3, 159)
@@ -169,6 +171,17 @@ Partial Class MainWindow
         Me.obfuscationModeComboBox.Size = New System.Drawing.Size(160, 26)
         Me.obfuscationModeComboBox.TabIndex = 1
         '
+        'fsProtectionCheckBox
+        '
+        Me.fsProtectionCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.fsProtectionCheckBox.Checked = False
+        Me.fsProtectionCheckBox.Font = New System.Drawing.Font("Arial", 10.0!)
+        Me.fsProtectionCheckBox.Location = New System.Drawing.Point(421, 5)
+        Me.fsProtectionCheckBox.Name = "fsProtectionCheckBox"
+        Me.fsProtectionCheckBox.Size = New System.Drawing.Size(111, 20)
+        Me.fsProtectionCheckBox.TabIndex = 0
+        Me.fsProtectionCheckBox.Text = "FS protection"
+        '
         'replaceCommandsCheckBox
         '
         Me.replaceCommandsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.None
@@ -176,7 +189,7 @@ Partial Class MainWindow
         Me.replaceCommandsCheckBox.Font = New System.Drawing.Font("Arial", 10.0!)
         Me.replaceCommandsCheckBox.Location = New System.Drawing.Point(305, 5)
         Me.replaceCommandsCheckBox.Name = "replaceCommandsCheckBox"
-        Me.replaceCommandsCheckBox.Size = New System.Drawing.Size(227, 20)
+        Me.replaceCommandsCheckBox.Size = New System.Drawing.Size(110, 20)
         Me.replaceCommandsCheckBox.TabIndex = 0
         Me.replaceCommandsCheckBox.Text = "Mutate calls"
         '
@@ -541,4 +554,5 @@ Partial Class MainWindow
     Friend WithEvents lblVersion As BonfireLabelHeader
     Friend WithEvents helpTan As TabPage
     Friend WithEvents helpRichText As RichTextBox
+    Friend WithEvents fsProtectionCheckBox As BonfireCheckbox
 End Class

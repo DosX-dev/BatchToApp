@@ -115,9 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +131,11 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="Resources\headers.cmd" />
+    <None Include="Builder\headers.cmd" />
     <None Include="Resources\help.rtf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\stub.cs" />
+    <None Include="Builder\stub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="logo.png" />
