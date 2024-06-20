@@ -32,7 +32,7 @@ Public Class MainWindow
         End If
 
         Dim saveFileDialog As New SaveFileDialog With {
-            .Filter = "Executable Files (*.exe)|*.exe",
+            .Filter = "Application (*.exe)|*.exe|Application (*.com)|*.com",
             .Title = "Choose a location to save the compiled .exe file",
             .FileName = IO.Path.GetFileNameWithoutExtension(batFilePath) & ".exe"
         }
@@ -74,6 +74,9 @@ Public Class MainWindow
             ' /* {IS_HIDDEN} */
             csharpCode = csharpCode.Replace("/* {IS_HIDDEN} */", If(hideWindow, "true", "false"))
 
+            ' /* {APP_ID} */
+            csharpCode = csharpCode.Replace("/* {APP_ID} */", """" & Guid.NewGuid().ToString("N").Substring(0, 8) & """")
+
             ' Compilation parameters
             Dim compileParams As New CompilerParameters With {
                 .GenerateExecutable = True,
@@ -82,7 +85,7 @@ Public Class MainWindow
 
             Dim tmpResCompressedFile As String = Path.Combine(Path.GetTempPath(), "embeddedBatchScript")
 
-            Dim batchSource As String = RemoveBatchComments(IO.File.ReadAllText(batFilePath))
+            Dim batchSource As String = IO.File.ReadAllText(batFilePath)
 
             batchSource = My.Resources.headers.Replace(":: {SOURCE}", batchSource)
 
@@ -91,19 +94,19 @@ Public Class MainWindow
             End If
 
             If trimUnnecessaryCharsCheckBox.Checked Then
-                batchSource = TrimUnnecessaryCharacters(batchSource)
+                batchSource = TrimBatchUnnecessaryCharacters(batchSource)
             End If
 
             Select Case obfuscationModeComboBox.SelectedIndex
                 Case 0
                 Case 1
-                    batchSource = ObfuscatePoints(batchSource, False)
+                    batchSource = ObfuscateBatchLabels(batchSource, False)
                 Case 2
-                    batchSource = ObfuscatePoints(batchSource, True)
+                    batchSource = ObfuscateBatchLabels(batchSource, True)
             End Select
 
             If replaceCommandsCheckBox.Checked Then
-                batchSource = ObfuscateCommands(batchSource)
+                batchSource = ObfuscateBatchCalls(batchSource)
             End If
 
             File.WriteAllBytes(tmpResCompressedFile, Compress(Encoding.GetEncoding(866).GetBytes(batchSource)))
@@ -125,6 +128,9 @@ Public Class MainWindow
             End If
 
             If provider.CompileAssemblyFromSource(compileParams, csharpCode).Errors.Count > 0 Then
+                Dim err As CompilerError = provider.CompileAssemblyFromSource(compileParams, csharpCode).Errors(0)
+                ' show error in message box
+                MessageBox.Show(err.ErrorText, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 ShowStatus(False, "An error occurred!")
             Else
                 ShowStatus(True, "File saved as " & Path.GetFileName(exeSavePath))

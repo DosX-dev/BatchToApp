@@ -4,7 +4,7 @@ Module Obfuscator
     Private rnd As New Random()
     Private labelMap As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
-    Function ObfuscatePoints(source As String, addFake As Boolean) As String
+    Function ObfuscateBatchLabels(source As String, addFake As Boolean) As String
         Dim regex As New Text.RegularExpressions.Regex(":(\w+)", Text.RegularExpressions.RegexOptions.IgnoreCase)
         Dim matches = regex.Matches(source)
 
@@ -55,7 +55,7 @@ Module Obfuscator
 
     Private Function ReplaceGotoMatch(match As Text.RegularExpressions.Match) As String
         If labelMap.ContainsKey(match.Groups(1).Value) Then
-            Return "goto " & ObfuscateString(labelMap(match.Groups(1).Value))
+            Return "goto " & ObfuscateString(labelMap(match.Groups(1).Value)).Replace("^", "^" & vbLf)
         End If
         Return match.Value
     End Function
@@ -85,7 +85,7 @@ Module Obfuscator
     End Function
 
     Private operatorMap As New Dictionary(Of String, String)
-    Public Function ObfuscateCommands(source As String) As String
+    Public Function ObfuscateBatchCalls(source As String) As String
         Dim mutationBlock As New StringBuilder,
             mutationBlockLabel As String = GetObfuscatedName()
 
@@ -125,15 +125,15 @@ Module Obfuscator
         For Each line As String In lines
             For Each op As String In operators
                 Dim regex As New Text.RegularExpressions.Regex("^\s*@?" & op & "\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
-                line = regex.Replace(line, Function(m) If(m.Value.StartsWith("@"), "@" & "%" & operatorMap(op) & "%", "%" & operatorMap(op) & "%"))
+                line = regex.Replace(line, Function(m) If(m.Value.StartsWith("@"), "@", String.Empty) & "%" & operatorMap(op) & "%")
             Next
 
             Dim closingBracketVarPattern As String = "%" & closingBracketVar & "%"
 
             If line = ")" Then
                 line = closingBracketVarPattern
-            ElseIf line.ToLower().Replace(" ", "") = ")else(" Then
-                line = closingBracketVarPattern & ObfuscateString("else") & "("
+            ElseIf line.ToLower().Replace(" ", String.Empty) = ")else(" Then
+                line = ") " & ObfuscateString("else") & " ("
             End If
 
             output.AppendLine(line)
@@ -142,7 +142,7 @@ Module Obfuscator
         Dim operatorDeclarations As New System.Text.StringBuilder()
         For Each kvp As KeyValuePair(Of String, String) In operatorMap
             If source.ToLower().Contains(kvp.Key) Then
-                operatorDeclarations.AppendLine("@" & ObfuscateString("set") & " ^" & kvp.Value & "=^" & vbLf & ObfuscateString(kvp.Key))
+                operatorDeclarations.AppendLine("%__" & Guid.NewGuid().ToString("N").Substring(0, 8) & "%" & Space(rnd.Next(0, 8)) & "@" & Space(rnd.Next(0, 8)) & ObfuscateString("set") & " " & ObfuscateString(kvp.Value).Replace("^", "^" & vbLf) & "=^" & vbLf & ObfuscateString(kvp.Key))
             End If
         Next
 
@@ -151,7 +151,7 @@ Module Obfuscator
 
 
     Private Function ObfuscateString(input As String) As String
-        Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(20, 99) & ", -" & rnd.Next(20, 99) & "%"))
+        Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(20, 9999) & ", -" & rnd.Next(20, 9999) & "%"))
     End Function
 
 

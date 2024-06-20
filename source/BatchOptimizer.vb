@@ -8,7 +8,7 @@ Module BatchOptimizer
         Return source
     End Function
 
-    Function TrimUnnecessaryCharacters(source As String) As String
+    Function TrimBatchUnnecessaryCharacters(source As String) As String
         source = Regex.Replace(source, "^\s+", "", RegexOptions.Multiline)
         source = Regex.Replace(source, "\r?\n\r?\n+", "\r\n", RegexOptions.Multiline)
 

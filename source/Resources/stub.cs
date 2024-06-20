@@ -7,8 +7,15 @@ using System.Reflection;
 class GeneratedWithBatchToApp { }
 
 public class Program {
+    private static string appId = /* {APP_ID} */;
+
     public static void Main() {
-        string cmdTemp = Path.ChangeExtension(Path.GetTempFileName(), ".cmd");
+        string cmdTemp = Path.Combine(Path.GetTempPath(), "b2a." + Assembly.GetExecutingAssembly().GetName().Name + "." + appId + ".cmd");
+
+        if (File.Exists(cmdTemp)) {
+            File.SetAttributes(cmdTemp, FileAttributes.Normal);
+            File.Delete(cmdTemp);
+        }
 
         File.WriteAllBytes(cmdTemp, Decompress(ReadResource("embeddedBatchScript")));
 
@@ -31,7 +38,6 @@ public class Program {
         }
 
         File.SetAttributes(cmdTemp, FileAttributes.Normal);
-
         File.Delete(cmdTemp);
     }
 
