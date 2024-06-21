@@ -1,16 +1,26 @@
 using System;
 using System.IO;
-using System.Diagnostics;
 using System.IO.Compression;
+using System.Diagnostics;
 using System.Reflection;
+using System.Windows.Forms;
 
 class GeneratedWithBatchToApp { }
 
 public class Program {
+    private static string appName = Assembly.GetExecutingAssembly().GetName().Name;
     private static string appId = /* {APP_ID} */;
 
-    public static void Main() {
-        string cmdTemp = Path.Combine(Path.GetTempPath(), "b2a." + Assembly.GetExecutingAssembly().GetName().Name + "." + appId + ".cmd");
+    public static void Main(string[] args) {
+        try {
+            RunApplication();
+        } catch (Exception ex) {
+            MessageBox.Show("Unable to execute.", appName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private static void RunApplication() {
+        string cmdTemp = Path.Combine(Path.GetTempPath(), "b2a." + appName + "." + appId + ".cmd");
 
         if (File.Exists(cmdTemp)) {
             File.SetAttributes(cmdTemp, FileAttributes.Normal);

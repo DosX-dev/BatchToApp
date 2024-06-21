@@ -149,11 +149,9 @@ Module Obfuscator
         Return operatorDeclarations.ToString() & Environment.NewLine & output.ToString()
     End Function
 
-
     Private Function ObfuscateString(input As String) As String
         Return String.Join("", input.Select(Function(c) "^" & c & "%os:~" & rnd.Next(20, 9999) & ", -" & rnd.Next(20, 9999) & "%"))
     End Function
-
 
     Private Function GetObfuscatedOperatorName() As String
         Return Guid.NewGuid().ToString("N").Substring(0, 8)

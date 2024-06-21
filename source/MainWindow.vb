@@ -119,8 +119,9 @@ Public Class MainWindow
             ' Do not save temporary files after compilation
             compileParams.TempFiles.KeepFiles = False
 
-            ' Add reference to System.dll
+            ' Add reference to libraries
             compileParams.ReferencedAssemblies.Add("System.dll")
+            compileParams.ReferencedAssemblies.Add("System.Windows.Forms.dll")
 
             ' Set the compiler option to specify the architecture
             compileParams.CompilerOptions = If(architecture = "x86", "/platform:x86", "/platform:x64")
