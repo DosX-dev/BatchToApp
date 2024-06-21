@@ -5,7 +5,7 @@ Module Obfuscator
     Private labelMap As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
 
     Function ObfuscateBatchLabels(source As String, addFake As Boolean) As String
-        Dim regex As New Text.RegularExpressions.Regex(":(\w+)", Text.RegularExpressions.RegexOptions.IgnoreCase)
+        Dim regex As New Text.RegularExpressions.Regex("(?<=^|\s):(\w+)", Text.RegularExpressions.RegexOptions.IgnoreCase)
         Dim matches = regex.Matches(source)
 
         For Each match As Text.RegularExpressions.Match In matches
