@@ -1,4 +1,5 @@
 ﻿Imports System.CodeDom.Compiler
+Imports System.ComponentModel
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
@@ -204,11 +205,7 @@ Public Class MainWindow
         btnCompile.Focus()
     End Sub
 
-    Private Sub helpRichText_Checks() Handles helpRichText.SelectionChanged, helpRichText.GotFocus
+    Private Sub helpRichText_MouseDown(sender As Object, e As MouseEventArgs) Handles helpRichText.MouseDown
         btnCompile.Focus()
-    End Sub
-
-    Private Sub helpRichText_Checks(sender As Object, e As EventArgs) Handles helpRichText.SelectionChanged, helpRichText.GotFocus
-
     End Sub
 End Class

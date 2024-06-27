@@ -44,7 +44,8 @@ Module Obfuscator
             Dim gotoRegex As New Text.RegularExpressions.Regex("\bgoto\s+(\w+)\b", Text.RegularExpressions.RegexOptions.IgnoreCase)
             line = gotoRegex.Replace(line, AddressOf ReplaceGotoMatch)
 
-            Dim callRegex As New Text.RegularExpressions.Regex("\bcall\s*\(?\s*:(\w+)\s*\)?", Text.RegularExpressions.RegexOptions.IgnoreCase)
+            ' Обновленное регулярное выражение для call
+            Dim callRegex As New Text.RegularExpressions.Regex("\bcall\s*\(?\s*:(\w+)\s*", Text.RegularExpressions.RegexOptions.IgnoreCase)
             line = callRegex.Replace(line, AddressOf ReplaceCallMatch)
 
             output.AppendLine(line)
@@ -62,7 +63,7 @@ Module Obfuscator
 
     Private Function ReplaceCallMatch(match As Text.RegularExpressions.Match) As String
         If labelMap.ContainsKey(match.Groups(1).Value) Then
-            Return "call :" & labelMap(match.Groups(1).Value)
+            Return "call :" & labelMap(match.Groups(1).Value) & " "
         End If
         Return match.Value
     End Function
