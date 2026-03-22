@@ -111,7 +111,7 @@ Module Obfuscator
                              "sort", "subst", "systeminfo", "taskkill", "tasklist", "time", "timeout", "tree", "type", "ver", "verify",
                              "vol", "xcopy", "shift", "bcdedit", "cipher", "cleanmgr", "driverquery", "gpupdate", "ipconfig", "nlsfunc",
                              "openfiles", "pathping", "powercfg", "print", "recover", "relog", "remsvc", "sfc", "shadow", "tzutil", "vssadmin", "wbadmin", "wevtutil",
-                             "mklink", "gpresult", "ftype", "bootcfg", "chkdsk", "chkntfs", "cmd", "erase", "help", "icacls", "prompt", "rem"}
+                             "mklink", "gpresult", "ftype", "bootcfg", "chkdsk", "chkntfs", "cmd", "erase", "help", "icacls", "prompt", "rem", "deltree"}
 
 
         Dim operatorMap As New Dictionary(Of String, String)()
