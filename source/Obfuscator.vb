@@ -112,7 +112,7 @@ Module Obfuscator
                              "vol", "xcopy", "shift", "bcdedit", "cipher", "cleanmgr", "driverquery", "gpupdate", "ipconfig", "nlsfunc",
                              "openfiles", "pathping", "powercfg", "print", "recover", "relog", "remsvc", "sfc", "shadow", "tzutil", "vssadmin", "wbadmin", "wevtutil",
                              "mklink", "gpresult", "ftype", "bootcfg", "chkdsk", "chkntfs", "cmd", "erase", "help", "icacls", "prompt", "rem", "deltree", "graftabl",
-                             "at"}
+                             "at", "screen", "free", "history", "choice", "beep", "alias", "delay", "timer"}
 
 
         Dim operatorMap As New Dictionary(Of String, String)()
