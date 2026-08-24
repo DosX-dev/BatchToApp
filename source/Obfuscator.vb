@@ -56,7 +56,7 @@ Module Obfuscator
             End If
         Next
 
-        Dim noiseVariable As String = GetNoiseVariableName(source)
+        Dim noiseVariables As IList(Of String) = GetNoiseVariableNames(source)
         Dim newLine As String = GetPreferredNewLine(lines)
 
         For Each line As BatchLine In lines
@@ -65,7 +65,7 @@ Module Obfuscator
                 Dim definitionMatch As Match = labelDefinitionRegex.Match(line.Text)
                 line.Text = definitionMatch.Groups("prefix").Value & labelMap(labelName) & definitionMatch.Groups("suffix").Value
             ElseIf Not IsLabelLine(line.Text) Then
-                line.Text = RewriteLabelReferences(line.Text, labelMap, noiseVariable, newLine)
+                line.Text = RewriteLabelReferences(line.Text, labelMap, noiseVariables, newLine)
             End If
         Next
 
@@ -104,7 +104,7 @@ Module Obfuscator
 
     Private Function RewriteLabelReferences(line As String,
                                             labelMap As Dictionary(Of String, String),
-                                            noiseVariable As String,
+                                            noiseVariables As IList(Of String),
                                             newLine As String) As String
         Dim references As List(Of LabelReference) = FindLabelReferences(line)
 
@@ -115,7 +115,7 @@ Module Obfuscator
 
             If labelMap.TryGetValue(decodedTarget, replacement) Then
                 If reference.Command.Equals("goto", StringComparison.OrdinalIgnoreCase) Then
-                    replacement = ObfuscateString(replacement, noiseVariable).Replace("^", "^" & newLine)
+                    replacement = ObfuscateString(replacement, noiseVariables).Replace("^", "^" & newLine)
                 End If
 
                 line = line.Remove(reference.TargetStart, reference.TargetLength).
@@ -537,18 +537,18 @@ Module Obfuscator
 
         Dim originalLines As List(Of BatchLine) = SplitSourceLines(source)
         Dim newLine As String = GetPreferredNewLine(originalLines)
-        Dim noiseVariable As String = GetNoiseVariableName(source)
+        Dim noiseVariables As IList(Of String) = GetNoiseVariableNames(source)
         Dim declarationGuardVariable As String = GetUnusedVariableName(source)
         Dim mutationBlockLabel As String = GetObfuscatedName()
         Dim mutationBlock As New StringBuilder()
 
-        mutationBlock.Append("@goto ").Append(ObfuscateString(mutationBlockLabel, noiseVariable)).Append(newLine)
+        mutationBlock.Append("@goto ").Append(ObfuscateString(mutationBlockLabel, noiseVariables)).Append(newLine)
         mutationBlock.Append(GetRandomBinaryJunk(NextRandom(201, 252))).Append(newLine)
         mutationBlock.Append("@exit /b ").Append(NextRandom(1, 256)).Append(newLine)
         mutationBlock.Append(":"c).Append(mutationBlockLabel).Append(newLine).Append(newLine)
 
         Dim closingBracketVar As String = "_" & GetObfuscatedOperatorName()
-        mutationBlock.Append("@set ").Append(ObfuscateString(closingBracketVar, noiseVariable)).Append("=^)").Append(newLine)
+        mutationBlock.Append("@set ").Append(ObfuscateString(closingBracketVar, noiseVariables)).Append("=^)").Append(newLine)
 
         source = mutationBlock.ToString() & newLine & source
 
@@ -586,7 +586,7 @@ Module Obfuscator
                 Dim indentationLength As Integer = line.Text.Length - line.Text.TrimStart().Length
                 line.Text = line.Text.Substring(0, indentationLength) & closingBracketVarPattern
             ElseIf Regex.IsMatch(trimmed, "^\)\s*else\s*\($", RegexOptions.IgnoreCase) Then
-                line.Text = ") " & ObfuscateString("else", noiseVariable) & " ("
+                line.Text = ") " & ObfuscateString("else", noiseVariables) & " ("
             End If
 
             output.Append(line.Text).Append(line.LineEnding)
@@ -597,19 +597,24 @@ Module Obfuscator
             If source.IndexOf(kvp.Key, StringComparison.OrdinalIgnoreCase) >= 0 Then
                 operatorDeclarations.Append("%").Append(declarationGuardVariable).Append("%")
                 operatorDeclarations.Append(Space(NextRandom(0, 8))).Append("@").Append(Space(NextRandom(0, 8)))
-                operatorDeclarations.Append(ObfuscateString("set", noiseVariable)).Append(" ")
-                operatorDeclarations.Append(ObfuscateString(kvp.Value, noiseVariable).Replace("^", "^" & newLine))
+                operatorDeclarations.Append(ObfuscateString("set", noiseVariables)).Append(" ")
+                operatorDeclarations.Append(ObfuscateString(kvp.Value, noiseVariables).Replace("^", "^" & newLine))
                 operatorDeclarations.Append("=^").Append(newLine)
-                operatorDeclarations.Append(ObfuscateString(kvp.Key, noiseVariable)).Append(newLine)
+                operatorDeclarations.Append(ObfuscateString(kvp.Key, noiseVariables)).Append(newLine)
             End If
         Next
 
         Return operatorDeclarations.ToString() & newLine & output.ToString()
     End Function
 
-    Private Function ObfuscateString(input As String, noiseVariable As String) As String
+    Private Function ObfuscateString(input As String, noiseVariables As IList(Of String)) As String
+        If noiseVariables Is Nothing OrElse noiseVariables.Count = 0 Then
+            Throw New ArgumentException("At least one noise variable is required.", "noiseVariables")
+        End If
+
         Return String.Join("", input.Select(
             Function(c)
+                Dim noiseVariable As String = noiseVariables(NextRandom(0, noiseVariables.Count))
                 Dim variedVariableName As String = RandomizeCase(noiseVariable)
                 Dim commaWhitespace As String = New String(" "c, NextRandom(0, 4))
                 Return "^" & c & "%" & variedVariableName & ":~" & NextRandom(40000, 99999) &
@@ -631,17 +636,53 @@ Module Obfuscator
         Return result.ToString()
     End Function
 
-    Private Function GetNoiseVariableName(source As String) As String
-        Dim candidates As String() = {"os", "comspec", "systemroot", "windir", "path", "pathext", "temp", "tmp", "username", "computername"}
+    Private Function GetNoiseVariableNames(source As String) As IList(Of String)
+        ' Use the common variables emitted by SET rather than arbitrary environment
+        ' entries. The latter can contain machine-specific names or secrets and may
+        ' not exist when the generated program is moved to another Windows account.
+        Dim candidates As String() = {
+            "allusersprofile", "appdata", "commonprogramfiles", "commonprogramfiles(x86)",
+            "commonprogramw6432", "computername", "comspec", "driverdata", "homedrive",
+            "homepath", "localappdata", "logonserver", "number_of_processors", "os",
+            "path", "pathext", "processor_architecture", "processor_identifier",
+            "processor_level", "processor_revision", "programdata", "programfiles",
+            "programfiles(x86)", "programw6432", "public", "systemdrive", "systemroot",
+            "temp", "tmp", "userdomain", "userdomain_roamingprofile", "username",
+            "userprofile", "windir"
+        }
+        Dim result As New List(Of String)()
 
         For Each candidate As String In candidates
-            Dim assignmentPattern As String = "\bset\s+(?:(?:/a|/p)\s+)?[""]?\s*" & Regex.Escape(candidate) & "\s*="
-            If Not Regex.IsMatch(source, assignmentPattern, RegexOptions.IgnoreCase) Then Return candidate
+            Dim value As String = Environment.GetEnvironmentVariable(candidate)
+            If Not String.IsNullOrEmpty(value) AndAlso Not IsNoiseVariableModified(source, candidate) Then
+                result.Add(candidate)
+            End If
         Next
 
-        ' CMDCMDLINE is a dynamic cmd.exe variable when command extensions are on
-        ' (the default and also a requirement for CALL :label).
-        Return "cmdcmdline"
+        If result.Count = 0 Then
+            ' CMDCMDLINE is a dynamic cmd.exe variable when command extensions are on
+            ' (the default and also a requirement for CALL :label).
+            result.Add("cmdcmdline")
+        End If
+
+        Return result
+    End Function
+
+    Private Function IsNoiseVariableModified(source As String, variableName As String) As Boolean
+        Dim escapedName As String = Regex.Escape(variableName)
+        Dim assignmentPattern As String =
+            "(?im)(?<![A-Za-z0-9_])set(?![A-Za-z0-9_])\s+(?:(?:/a|/p)\s+)?""?\s*" & escapedName &
+            "\s*(?:=|\+=|-=|\*=|/=|%=|&=|\|=|\^=|<<=|>>=)"
+        If Regex.IsMatch(source, assignmentPattern, RegexOptions.IgnoreCase Or RegexOptions.Multiline) Then Return True
+
+        ' PATH also has its own assignment command (PATH value / PATH=value).
+        If variableName.Equals("path", StringComparison.OrdinalIgnoreCase) Then
+            Return Regex.IsMatch(source,
+                                 "(?im)(?<![%A-Za-z0-9_])path(?![%A-Za-z0-9_])(?:\s+|=)",
+                                 RegexOptions.IgnoreCase Or RegexOptions.Multiline)
+        End If
+
+        Return False
     End Function
 
     Private Function GetUnusedVariableName(source As String) As String

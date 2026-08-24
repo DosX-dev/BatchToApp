@@ -169,21 +169,56 @@ Module Program
         Dim source As String = Lines(
             "@echo off",
             "set ""os=""",
+            "set ""allusersprofile=""",
+            "set ""appdata=""",
+            "set ""commonprogramfiles=""",
+            "set ""commonprogramfiles(x86)=""",
+            "set ""commonprogramw6432=""",
             "set ""comspec=""",
+            "set ""driverdata=""",
+            "set ""homedrive=""",
+            "set ""homepath=""",
+            "set ""localappdata=""",
+            "set ""logonserver=""",
+            "set /a ""number_of_processors+=0"" >nul",
+            "set ""processor_architecture=""",
+            "set ""processor_identifier=""",
+            "set ""processor_level=""",
+            "set ""processor_revision=""",
+            "set ""programdata=""",
+            "set ""programfiles=""",
+            "set ""programfiles(x86)=""",
+            "set ""programw6432=""",
+            "set ""public=""",
+            "set ""systemdrive=""",
             "set ""systemroot=""",
             "set ""windir=""",
-            "set ""path=""",
+            "path C:\__batchtoapp_noise_test__",
             "set ""pathext=""",
             "set ""temp=""",
             "set ""tmp=""",
+            "set ""userdomain=""",
+            "set ""userdomain_roamingprofile=""",
             "set ""username=""",
+            "set ""userprofile=""",
             "set ""computername=""",
             "goto target",
             ":target",
             "echo reached")
 
         Dim expected As String = RunBatch(source)
-        AssertEqual(expected, RunBatch(ObfuscateBatchLabels(source, False)),
+        Dim labelResult As String = ObfuscateBatchLabels(source, False)
+        Dim noiseExpressions As MatchCollection = Regex.Matches(
+            labelResult,
+            "%(?<variable>[A-Za-z_][A-Za-z0-9_()]*)\:~\d+, {0,3}-\d+%")
+        If noiseExpressions.Count = 0 Then Throw New InvalidOperationException("no label noise was generated")
+        For Each expression As Match In noiseExpressions
+            If Not expression.Groups("variable").Value.Equals("cmdcmdline", StringComparison.OrdinalIgnoreCase) Then
+                Throw New InvalidOperationException("a variable modified by the script remained in the noise pool")
+            End If
+        Next
+
+        AssertEqual(expected, RunBatch(labelResult),
                     "environment changes corrupted an obfuscated target")
         AssertEqual(expected, RunBatch(ObfuscateBatchCalls(ObfuscateBatchLabels(source, True))),
                     "environment changes corrupted the combined obfuscation")
@@ -206,18 +241,26 @@ Module Program
 
         Dim expressions As MatchCollection = Regex.Matches(
             samples.ToString(),
-            "%(?<variable>os):~\d+,(?<spaces> {0,3})-\d+%",
-            RegexOptions.IgnoreCase)
+            "%(?<variable>[A-Za-z_][A-Za-z0-9_()]*)\:~\d+,(?<spaces> {0,3})-\d+%")
         If expressions.Count < 100 Then Throw New InvalidOperationException("too few polymorphic noise expressions were generated")
 
-        Dim variableForms As New HashSet(Of String)(StringComparer.Ordinal)
+        Dim normalizedVariables As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        Dim formsByVariable As New Dictionary(Of String, HashSet(Of String))(StringComparer.OrdinalIgnoreCase)
         Dim spacingForms As New HashSet(Of Integer)()
         For Each expression As Match In expressions
-            variableForms.Add(expression.Groups("variable").Value)
+            Dim variableForm As String = expression.Groups("variable").Value
+            normalizedVariables.Add(variableForm)
+            If Not formsByVariable.ContainsKey(variableForm) Then
+                formsByVariable(variableForm) = New HashSet(Of String)(StringComparer.Ordinal)
+            End If
+            formsByVariable(variableForm).Add(variableForm)
             spacingForms.Add(expression.Groups("spaces").Length)
         Next
 
-        If variableForms.Count < 2 Then Throw New InvalidOperationException("noise variable casing was not varied")
+        If normalizedVariables.Count < 5 Then Throw New InvalidOperationException("noise variables were not mixed")
+        If Not formsByVariable.Values.Any(Function(forms) forms.Count >= 2) Then
+            Throw New InvalidOperationException("noise variable casing was not varied")
+        End If
         If spacingForms.Count < 2 Then Throw New InvalidOperationException("comma spacing was not varied")
     End Sub
 
