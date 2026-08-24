@@ -132,8 +132,10 @@ Public Class MainWindow
                 compileParams.CompilerOptions &= " /target:winexe"
             End If
 
-            If provider.CompileAssemblyFromSource(compileParams, csharpCode).Errors.Count > 0 Then
-                Dim err As CompilerError = provider.CompileAssemblyFromSource(compileParams, csharpCode).Errors(0)
+            Dim compileResult As CompilerResults = provider.CompileAssemblyFromSource(compileParams, csharpCode)
+
+            If compileResult.Errors.HasErrors Then
+                Dim err As CompilerError = compileResult.Errors.Cast(Of CompilerError)().First(Function(item) Not item.IsWarning)
                 ' show error in message box
                 MessageBox.Show(err.ErrorText, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 ShowStatus(False, "An error occurred!")

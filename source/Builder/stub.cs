@@ -14,7 +14,7 @@ public class Program {
     public static void Main(string[] args) {
         try {
             RunApplication();
-        } catch (Exception ex) {
+        } catch (Exception) {
             MessageBox.Show("Unable to execute.", appName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
