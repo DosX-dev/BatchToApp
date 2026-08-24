@@ -124,8 +124,9 @@ Public Class MainWindow
             compileParams.ReferencedAssemblies.Add("System.dll")
             compileParams.ReferencedAssemblies.Add("System.Windows.Forms.dll")
 
-            ' Set the compiler option to specify the architecture
-            compileParams.CompilerOptions = If(architecture = "x86", "/platform:x86", "/platform:x64")
+            ' Optimize the generated stub and never emit debug information.
+            compileParams.CompilerOptions = If(architecture = "x86", "/platform:x86", "/platform:x64") &
+                                            " /optimize+ /debug-"
 
             ' Set the target type to Windows if the window should be hidden
             If hideWindow Then
