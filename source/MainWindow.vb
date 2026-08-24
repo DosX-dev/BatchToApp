@@ -33,8 +33,8 @@ Public Class MainWindow
         End If
 
         Dim saveFileDialog As New SaveFileDialog With {
-            .Filter = "Application (*.exe)|*.exe|Application (*.com)|*.com",
-            .Title = "Choose a location to save the compiled .exe file",
+            .Filter = "Application (*.exe)|*.exe|Application (*.com)|*.com|Fake BAT application (*.bat)|*.bat|Fake CMD application (*.cmd)|*.cmd",
+            .Title = "Choose a location to save the compiled application",
             .FileName = IO.Path.GetFileNameWithoutExtension(batFilePath) & ".exe"
         }
 
@@ -42,7 +42,19 @@ Public Class MainWindow
 
         ' Show the file selection dialog
         If saveFileDialog.ShowDialog() = DialogResult.OK Then
-            Dim exeSavePath As String = saveFileDialog.FileName
+            Dim outputExtension As String
+            Select Case saveFileDialog.FilterIndex
+                Case 2
+                    outputExtension = ".com"
+                Case 3
+                    outputExtension = ".bat"
+                Case 4
+                    outputExtension = ".cmd"
+                Case Else
+                    outputExtension = ".exe"
+            End Select
+
+            Dim exeSavePath As String = IO.Path.ChangeExtension(saveFileDialog.FileName, outputExtension)
 
             If Not String.IsNullOrWhiteSpace(exeSavePath) Then
                 Dim architecture As String = If(i386RadioButton.Checked, "x86", "x64")
