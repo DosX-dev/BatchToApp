@@ -16,6 +16,7 @@ Module Program
         RunTest(NameOf(DynamicTargetsRemainUsable), AddressOf DynamicTargetsRemainUsable)
         RunTest(NameOf(EnvironmentChangesDoNotCorruptTargets), AddressOf EnvironmentChangesDoNotCorruptTargets)
         RunTest(NameOf(NoiseFormattingIsPolymorphicAndValid), AddressOf NoiseFormattingIsPolymorphicAndValid)
+        RunTest(NameOf(InternalVariablesUseIlNames), AddressOf InternalVariablesUseIlNames)
         RunTest(NameOf(BinaryJunkIsPreserved), AddressOf BinaryJunkIsPreserved)
         RunTest(NameOf(V2KeepsContinuationsAndBlocksIntact), AddressOf V2KeepsContinuationsAndBlocksIntact)
         RunTest(NameOf(AllObfuscationCombinationsPreserveBehavior), AddressOf AllObfuscationCombinationsPreserveBehavior)
@@ -264,6 +265,42 @@ Module Program
         If spacingForms.Count < 2 Then Throw New InvalidOperationException("comma spacing was not varied")
     End Sub
 
+    Private Sub InternalVariablesUseIlNames()
+        Dim source As String = Lines(
+            "@echo off",
+            "setlocal",
+            "if ""x""==""x"" (",
+            "  echo reached",
+            ")",
+            "endlocal")
+        Dim expected As String = RunBatch(source)
+        Dim observedLengths As New HashSet(Of Integer)()
+
+        For sample As Integer = 1 To 8
+            Dim result As String = ObfuscateBatchCalls(source)
+            If Regex.IsMatch(result, "%_[0-9a-f]{8}%", RegexOptions.IgnoreCase) Then
+                Throw New InvalidOperationException("an old underscore/hex variable name was generated")
+            End If
+
+            Dim matches As MatchCollection = Regex.Matches(result, "%(?<variable>[Il]{20,32})%")
+            Dim uniqueNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+            For Each variableMatch As Match In matches
+                Dim variableName As String = variableMatch.Groups("variable").Value
+                uniqueNames.Add(variableName)
+                observedLengths.Add(variableName.Length)
+            Next
+
+            If uniqueNames.Count < 6 Then
+                Throw New InvalidOperationException("too few distinct I/l internal variables were generated")
+            End If
+            If sample = 1 Then AssertEqual(expected, RunBatch(result), "I/l variables changed script behavior")
+        Next
+
+        If observedLengths.Count < 3 Then
+            Throw New InvalidOperationException("I/l variable lengths were not varied")
+        End If
+    End Sub
+
     Private Sub BinaryJunkIsPreserved()
         Dim hasBinaryControl As Boolean = False
         Dim hasExtendedByte As Boolean = False
@@ -281,13 +318,13 @@ Module Program
                 If codePoint > &H7F Then hasExtendedByte = True
             Next
 
-            AssertMatches(result, "(?im)^@%_[0-9a-f]{8}% /b (?:[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\s*$")
+            AssertMatches(result, "(?im)^@%[Il]{20,32}% /b (?:[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\s*$")
 
             Try
                 AssertEqual("reached", RunBatch(result), "binary junk changed script behavior")
             Catch ex As Exception
-                Dim gotoMatch As Match = Regex.Match(result, "(?im)^@%_[0-9a-f]{8}% [^\r\n]*(?:\r\n|\n|\r)")
-                Dim sentinelMatch As Match = Regex.Match(result, "(?im)^@%_[0-9a-f]{8}% /b (?:[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\s*$")
+                Dim gotoMatch As Match = Regex.Match(result, "(?im)^@%[Il]{20,32}% [^\r\n]*(?:\r\n|\n|\r)")
+                Dim sentinelMatch As Match = Regex.Match(result, "(?im)^@%[Il]{20,32}% /b (?:[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\s*$")
                 Dim binaryText As String = result.Substring(gotoMatch.Index + gotoMatch.Length,
                                                             sentinelMatch.Index - gotoMatch.Index - gotoMatch.Length)
                 Dim binaryHex As String = BitConverter.ToString(Encoding.GetEncoding(866).GetBytes(binaryText))

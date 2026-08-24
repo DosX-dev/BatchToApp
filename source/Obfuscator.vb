@@ -538,7 +538,8 @@ Module Obfuscator
         Dim originalLines As List(Of BatchLine) = SplitSourceLines(source)
         Dim newLine As String = GetPreferredNewLine(originalLines)
         Dim noiseVariables As IList(Of String) = GetNoiseVariableNames(source)
-        Dim declarationGuardVariable As String = GetUnusedVariableName(source)
+        Dim usedVariableNames As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        Dim declarationGuardVariable As String = GetUnusedVariableName(source, usedVariableNames)
         Dim mutationBlockLabel As String = GetObfuscatedName()
         Dim mutationBlock As New StringBuilder()
 
@@ -547,7 +548,7 @@ Module Obfuscator
         mutationBlock.Append("@exit /b ").Append(NextRandom(1, 256)).Append(newLine)
         mutationBlock.Append(":"c).Append(mutationBlockLabel).Append(newLine).Append(newLine)
 
-        Dim closingBracketVar As String = "_" & GetObfuscatedOperatorName()
+        Dim closingBracketVar As String = GetUnusedVariableName(source, usedVariableNames)
         mutationBlock.Append("@set ").Append(ObfuscateString(closingBracketVar, noiseVariables)).Append("=^)").Append(newLine)
 
         source = mutationBlock.ToString() & newLine & source
@@ -565,7 +566,9 @@ Module Obfuscator
 
         Dim operatorMap As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
         For Each op As String In operators
-            If Not operatorMap.ContainsKey(op) Then operatorMap(op) = "_" & GetObfuscatedOperatorName()
+            If Not operatorMap.ContainsKey(op) Then
+                operatorMap(op) = GetUnusedVariableName(source, usedVariableNames)
+            End If
         Next
 
         Dim operatorPattern As String = String.Join("|", operatorMap.Keys.OrderByDescending(Function(value) value.Length).Select(Function(value) Regex.Escape(value)))
@@ -685,12 +688,24 @@ Module Obfuscator
         Return False
     End Function
 
-    Private Function GetUnusedVariableName(source As String) As String
+    Private Function GetUnusedVariableName(source As String, usedNames As HashSet(Of String)) As String
         Dim candidate As String
         Do
-            candidate = "_" & Guid.NewGuid().ToString("N")
-        Loop While source.IndexOf(candidate, StringComparison.OrdinalIgnoreCase) >= 0
+            candidate = GetIlVariableName()
+        Loop While source.IndexOf(candidate, StringComparison.OrdinalIgnoreCase) >= 0 OrElse
+                   Not usedNames.Add(candidate)
         Return candidate
+    End Function
+
+    Private Function GetIlVariableName() As String
+        Dim length As Integer = NextRandom(20, 33)
+        Dim result As New StringBuilder(length)
+
+        For i As Integer = 1 To length
+            result.Append(If(NextRandom(0, 2) = 0, "I"c, "l"c))
+        Next
+
+        Return result.ToString()
     End Function
 
     Private Function GetRandomBinaryJunk(length As Integer) As String
@@ -717,10 +732,6 @@ Module Obfuscator
         SyncLock rnd
             Return rnd.Next(minValue, maxValue)
         End SyncLock
-    End Function
-
-    Private Function GetObfuscatedOperatorName() As String
-        Return Guid.NewGuid().ToString("N").Substring(0, 8)
     End Function
 
     Private Function SplitSourceLines(source As String) As List(Of BatchLine)
